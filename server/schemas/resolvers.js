@@ -47,11 +47,11 @@ const resolvers = {
 
             return { token, user };
         },
-        addWish: async (parent, { wish }, context ) => {
+        addWish: async (parent, { wishData }, context ) => {
             if (context.user) {
             const user = await User.findByIdAndUpdate( 
                 { _id: context.user._id},
-                {$addToSet: { wish: wish } },
+                {$addToSet: { wish: wishData } },
                 {
                     new: true
                 }
