@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { 
@@ -9,12 +9,15 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context'
 
-// import BonaticsContainer from './components/BonaticsContainer';
 import Home from "./pages/Home";
 import Profile from './pages/Profile'
 import Login from './pages/Login'
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Signup from "./pages/Signup";
+
+import Auth from "./utils/auth"
+
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -35,13 +38,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
+export const LoginContext = createContext<any>({})
+
 function App() {
+  const [loggedIn, setLoggedIn] = useState(true)
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
           <Header />
-            <div>
+            <div className="container-fluid">
               <Routes>
                 <Route
                   path = '/'
@@ -55,13 +62,16 @@ function App() {
                   path = '/login'
                   element = {<Login />}
                 ></Route>
+                <Route
+                  path = '/signup'
+                  element = {<Signup />}
+                ></Route>
               </Routes>
             </div>
           <Footer />
         </div>
       </Router>
     </ApolloProvider>
-
   );
 }
 

@@ -1,37 +1,59 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../images/logo-no-bg.png'
+import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../../images/logo-no-bg.png";
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../../utils/queries";
 
-import Auth from '../../utils/auth';
+import Auth from "../../utils/auth";
 
-const Header = () => {
-    const logout = (event) => {
-        event.prevenDefault();
-        Auth.logout();
-    };
-    return (
-        <header>
-          <ul>
-            <li><Link to='/' className='navbar'>Home</Link></li>
-            <li><Link to='/profile' className='navbar'>Profile</Link></li>
-            {Auth.loggedIn() ? (
-                        <>
-                            <Link to='/myProfile' className='navbar'>
-                                <li>{Auth.getProfile().data.username}'s Profile</li>
-                            </Link>
-                            <button onClick={logout}>Logout</button>
-                        </>
-                    ) : (
-                        <>
-                        <li><Link to='login' className='navbar'>Login</Link></li>
-                        <li><Link to='signup' className='navbar'>Create Account</Link></li>
-                        </>
-                    )}
-            
-            <img className='logo' src={logo} alt='logo' />
-            </ul>
-        </header>
-    )
+const Header = (event) => {
+  const logout = (event) => {
+    Auth.logout();
+    localStorage.clear();
+    window.location.assign('/');
+  };
+
+// pull in logged in user's user name
+const { loading, data } = useQuery(QUERY_ME);
+const user = data?.me.userName || '(No User Name Found)';
+
+  return (
+    <header>
+      <ul className="navbar-cont">
+        <li>
+          <Link to="/" className="navbar">
+            Home
+          </Link>
+        </li>
+        {Auth.loggedIn() ? (
+          <>
+             <li>
+                <Link to="/profile" className="navbar">
+             {user}'s Profile
+            </Link>
+            </li>
+            <button className="logout" onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login" className="navbar">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/signup" className="navbar">
+                Create Account
+              </Link>
+            </li>
+          </>
+        )}
+
+        <img className="logo" src={logo} alt="logo" />
+      </ul>
+    </header>
+  );
 };
+
 
 export default Header;

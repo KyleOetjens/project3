@@ -9,7 +9,7 @@ import Auth from '../utils/auth';
 
 const Signup = () => {
     const [formState, setFormState] = useState({
-        name: '',
+        userName: '',
         email: '',
         password: '',
     });
@@ -43,11 +43,10 @@ const Signup = () => {
     };
 
     return (
-        <main className="flex-row justify-center mb-4">
-            <div className="col-12 col-lg-10">
-                <div className="card">
-                    <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
-                    <div className="card-body">
+        <main className="row justify-content-center align-items-center mb-4 login-cont">
+                <div className="card col-4 login-card signup-card">
+                    <h4 className="card-header text-center mb-4 login-header">Sign Up</h4>
+                    <div className="justify-content-center">
                         {data ? (
                             <p>
                                 Success! You may now head{' '}
@@ -56,15 +55,15 @@ const Signup = () => {
                         ) : (
                             <form onSubmit={handleFormSubmit}>
                                 <input
-                                    className="form-input"
+                                    className="form-input col-12 p-2 mb-4 signup-input"
                                     placeholder="Your username"
-                                    name="name"
+                                    name="userName"
                                     type="text"
-                                    value={formState.name}
+                                    value={formState.userName}
                                     onChange={handleChange}
                                 />
                                 <input
-                                    className="form-input"
+                                    className="form-input col-12 p-2 mb-4 signup-input"
                                     placeholder="Your email"
                                     name="email"
                                     type="email"
@@ -72,20 +71,22 @@ const Signup = () => {
                                     onChange={handleChange}
                                 />
                                 <input
-                                    className="form-input"
+                                    className="form-input col-12 p-2 mb-4 signup-input"
                                     placeholder="******"
                                     name="password"
                                     type="password"
                                     value={formState.password}
                                     onChange={handleChange}
                                 />
+                                <div className='button-cont'>
                                 <button
-                                    className="btn btn-block btn-info"
+                                    className="p-2 signup-button button"
                                     style={{ cursor: 'pointer' }}
                                     type="submit"
                                 >
                                     Submit
                                 </button>
+                                </div>
                             </form>
                         )}
 
@@ -96,7 +97,6 @@ const Signup = () => {
                         )}
                     </div>
                 </div>
-            </div>
         </main>
     );
 };
